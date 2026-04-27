@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= card.firstName %> <%= card.lastName %> - My FYI</title>
+  <link rel="stylesheet" href="/css/tailwind.v1.css">
+  <style>
+    body {
+      padding: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      border: 4px solid #667eea;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      text-center;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    
+    .contact-info {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 2px solid #eee;
+      text-align: center;
+    }
+    
+    a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: #764ba2;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <% if (card.photoUrl) { %>
+      <img src="<%= card.photoUrl %>" alt="<%= card.firstName %> <%= card.lastName %>" class="photo">
+    <% } else { %>
+      <div class="photo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; font-weight: bold;">
+        <%= card.firstName.charAt(0) %><%= card.lastName.charAt(0) %>
+      </div>
+    <% } %>
+    
+    <h1><%= card.firstName %> <%= card.lastName %></h1>
+    
+    <% if (card.bio) { %>
+      <p style="text-align: center; color: #666; margin-top: 1rem; line-height: 1.6;">
+        <%= card.bio %>
+      </p>
+    <% } %>
+    
+    <div class="contact-info">
+      <% if (card.contactEmail) { %>
+        <p style="margin: 0.5rem 0;">
+          <a href="mailto:<%= card.contactEmail %>"><%= card.contactEmail %></a>
+        </p>
+      <% } %>
+      <p style="color: #999; font-size: 0.875rem; margin-top: 1rem;">
+        Card Code: <%= card.code %>
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // Placeholder for service worker registration and analytics tracking
+    if ('serviceWorker' in navigator) {
+      // Will be enabled once service worker is set up
+    }
+  </script>
+</body>
+</html>

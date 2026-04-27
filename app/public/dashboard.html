@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - My FYI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow">
+      <div
+        class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center"
+      >
+        <h1 class="text-2xl font-bold text-purple-600">My FYI</h1>
+        <button
+          onclick="logout()"
+          class="text-gray-700 hover:text-purple-600 font-semibold"
+        >
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+      <!-- Tabs -->
+      <div class="flex space-x-4 border-b border-gray-200 mb-8">
+        <button
+          onclick="showTab('overview')"
+          class="tab-btn active px-4 py-2 border-b-2 border-purple-600 font-semibold"
+        >
+          Overview
+        </button>
+        <button
+          onclick="showTab('card-editor')"
+          class="tab-btn px-4 py-2 text-gray-600 hover:text-purple-600"
+        >
+          Card Editor
+        </button>
+        <button
+          onclick="showTab('analytics')"
+          class="tab-btn px-4 py-2 text-gray-600 hover:text-purple-600"
+        >
+          Analytics
+        </button>
+      </div>
+
+      <!-- Overview Tab -->
+      <div id="overview-tab" class="tab-content">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm font-medium mb-2">
+              Your Card Code
+            </h3>
+            <div class="text-3xl font-bold text-purple-600" id="cardCode">
+              -
+            </div>
+            <p class="text-gray-600 text-sm mt-2">
+              Share: myfyi.link/<span id="cardCodeText">-</span>
+            </p>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm font-medium mb-2">
+              Subscription Status
+            </h3>
+            <div class="text-lg font-bold text-green-600" id="subStatus">
+              Active
+            </div>
+            <p class="text-gray-600 text-sm mt-2">
+              Next billing: <span id="nextBilling">-</span>
+            </p>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-gray-500 text-sm font-medium mb-2">Total Views</h3>
+            <div class="text-3xl font-bold text-blue-600" id="totalViews">
+              0
+            </div>
+            <p class="text-gray-600 text-sm mt-2">Card impressions</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-bold mb-4">Your Profile</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="profileInfo">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Editor Tab -->
+      <div id="card-editor-tab" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Form -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-bold mb-6">Edit Your Card</h3>
+            <form id="cardForm" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Photo URL</label
+                >
+                <input
+                  type="url"
+                  id="photoUrl"
+                  placeholder="https://example.com/photo.jpg"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600"
+                />
+                <p class="text-xs text-gray-500 mt-1">
+                  Link to your profile photo
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Bio</label
+                >
+                <textarea
+                  id="bio"
+                  maxlength="500"
+                  placeholder="Tell people about yourself..."
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600"
+                  rows="4"
+                ></textarea>
+                <p class="text-xs text-gray-500 mt-1">
+                  <span id="bioCount">0</span>/500 characters
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Contact Email</label
+                >
+                <input
+                  type="email"
+                  id="contactEmail"
+                  placeholder="contact@example.com"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-600"
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="w-full bg-purple-600 text-white font-bold py-2 rounded-lg hover:bg-purple-700"
+              >
+                Save Changes
+              </button>
+            </form>
+          </div>
+
+          <!-- Preview -->
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold mb-4">Live Preview</h3>
+            <div id="cardPreview" class="bg-white rounded-lg shadow p-8 flex-1">
+              <div class="text-center">
+                <div
+                  id="previewPhoto"
+                  class="w-24 h-24 rounded-full mx-auto mb-4 bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center font-bold text-white text-2xl"
+                >
+                  JD
+                </div>
+                <h1 id="previewName" class="text-2xl font-bold">John Doe</h1>
+                <p id="previewBio" class="text-gray-600 mt-2">
+                  Your bio will appear here...
+                </p>
+                <p id="previewEmail" class="text-purple-600 mt-4">
+                  contact@example.com
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div id="analytics-tab" class="tab-content hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-bold mb-4">Views Over Time</h3>
+            <canvas id="viewsChart"></canvas>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-bold mb-4">Statistics</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-gray-600">Total Views</p>
+                <p class="text-2xl font-bold text-blue-600" id="analyticsViews">
+                  0
+                </p>
+              </div>
+              <div>
+                <p class="text-gray-600">Total Clicks</p>
+                <p
+                  class="text-2xl font-bold text-green-600"
+                  id="analyticsClicks"
+                >
+                  0
+                </p>
+              </div>
+              <div>
+                <p class="text-gray-600">Click Rate</p>
+                <p
+                  class="text-2xl font-bold text-orange-600"
+                  id="analyticsClickRate"
+                >
+                  0%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/dashboard.v1.js"></script>
+  </body>
+</html>
