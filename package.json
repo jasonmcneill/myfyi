@@ -12,7 +12,8 @@
     "seed": "node seeds/index.js",
     "build:css": "tailwindcss -i ./app/public/css/input.css -o ./app/public/css/tailwind.v1.css",
     "watch:css": "tailwindcss -i ./app/public/css/input.css -o ./app/public/css/tailwind.v1.css --watch",
-    "ssh:prod": "ssh root@172.236.250.102 -i ~/.ssh/usd21/id_rsa"
+    "ssh:prod": "ssh root@172.236.250.102 -i ~/.ssh/usd21/id_rsa",
+    "deploy:prod": "npm run ssh:prod ./pull-myfyi.sh"
   },
   "keywords": [
     "business card",
