@@ -131,6 +131,23 @@ app.get("/api/test", (req, res) => {
   res.json({ message: "Backend is running" });
 });
 
+// Email test route (dev only)
+if (process.env.NODE_ENV !== "production") {
+  const { transporter, templates } = require("./config/email");
+  app.post("/api/test/email", async (req, res) => {
+    const to = req.body.to || req.query.to;
+    if (!to) return res.status(400).json({ error: "Provide a 'to' address" });
+    try {
+      const info = await transporter.sendMail(
+        templates.confirmationEmail(to, "Test User", `${process.env.FRONTEND_URL}/verify/test`),
+      );
+      res.json({ success: true, messageId: info.messageId });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+}
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });

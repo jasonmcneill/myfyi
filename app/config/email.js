@@ -1,10 +1,18 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// Configure transporter (using Gmail or SendGrid)
 let transporter;
 
-if (process.env.SENDGRID_API_KEY) {
+if (process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY) {
+  transporter = nodemailer.createTransport({
+    host: "in-v3.mailjet.com",
+    port: 587,
+    auth: {
+      user: process.env.MAILJET_API_KEY,
+      pass: process.env.MAILJET_SECRET_KEY,
+    },
+  });
+} else if (process.env.SENDGRID_API_KEY) {
   transporter = nodemailer.createTransport({
     host: "smtp.sendgrid.net",
     port: 587,
@@ -23,10 +31,11 @@ if (process.env.SENDGRID_API_KEY) {
   });
 }
 
-// Email templates
+const FROM = process.env.EMAIL_FROM || process.env.EMAIL_USER;
+
 const templates = {
   confirmationEmail: (email, name, verificationLink) => ({
-    from: process.env.EMAIL_USER,
+    from: FROM,
     to: email,
     subject: "Welcome to My FYI - Confirm Your Email",
     html: `
@@ -37,7 +46,7 @@ const templates = {
   }),
 
   paymentReceiptEmail: (email, name, amount, nextBillingDate) => ({
-    from: process.env.EMAIL_USER,
+    from: FROM,
     to: email,
     subject: "My FYI Subscription - Payment Receipt",
     html: `
@@ -54,7 +63,7 @@ const templates = {
     cardColor,
     quantity,
   ) => ({
-    from: process.env.EMAIL_USER,
+    from: FROM,
     to: adminEmail,
     subject: "New Order - My FYI Fulfillment",
     html: `
