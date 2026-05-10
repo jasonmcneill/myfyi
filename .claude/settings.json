@@ -1,0 +1,70 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env*)",
+      "Read(**/.dev.vars*)",
+      "Read(**/.npmrc)",
+      "Read(**/.pypirc)",
+      "Read(**/.netrc)",
+      "Read(**/config/database.yml)",
+      "Read(**/config/credentials.json)",
+      "Read(**/config/master.key)",
+
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/id_rsa)",
+      "Read(**/id_dsa)",
+      "Read(**/id_ecdsa)",
+      "Read(**/id_ed25519)",
+
+      "Read(**/secrets/**)",
+      "Read(**/credentials/**)",
+
+      "Read(**/.ssh/**)",
+      "Read(**/.gnupg/**)",
+
+      "Read(**/.aws/**)",
+      "Read(**/.azure/**)",
+      "Read(**/.config/gcloud/**)",
+      "Read(**/gcloud/**)",
+
+      "Read(**/.docker/**)",
+      "Read(**/.dockercfg)",
+      "Read(**/.kube/**)",
+
+      "Write(**/.env*)",
+      "Write(**/.dev.vars*)",
+      "Write(**/secrets/**)",
+      "Write(**/credentials/**)",
+      "Write(**/.ssh/**)",
+      "Write(**/.gnupg/**)",
+      "Write(**/.aws/**)",
+      "Write(**/.azure/**)",
+      "Write(**/.config/gcloud/**)",
+      "Write(**/.kube/**)",
+      "Write(**/*.pem)",
+      "Write(**/*.key)",
+      "Write(**/*.p12)",
+      "Write(**/*.pfx)",
+
+      "Bash(cat:.env*)",
+      "Bash(cat:**/.env*)",
+      "Bash(cat:**/.ssh/**)",
+      "Bash(cat:**/.aws/**)",
+      "Bash(cat:**/*.pem)",
+      "Bash(cat:**/*.key)",
+      "Bash(cat:**/secrets/**)",
+      "Bash(cat:**/credentials/**)",
+      "Bash(less:.env*)",
+      "Bash(less:**/.env*)",
+      "Bash(head:.env*)",
+      "Bash(head:**/.env*)",
+      "Bash(tail:.env*)",
+      "Bash(tail:**/.env*)",
+      "Bash(grep:* .env*)",
+      "Bash(grep:* **/.env*)"
+    ]
+  }
+}
