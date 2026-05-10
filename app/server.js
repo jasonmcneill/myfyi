@@ -35,6 +35,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// myfyi.link domain — root redirects to myfyi.cards, /:code serves the card
+const LINK_DOMAIN = process.env.LINK_DOMAIN || "myfyi.link";
+const cardRouter = require("./routes/cards");
+app.use((req, res, next) => {
+  if (req.hostname !== LINK_DOMAIN) return next();
+  if (req.path === "/") {
+    return res.redirect(301, process.env.FRONTEND_URL || "https://myfyi.cards");
+  }
+  return cardRouter(req, res, next);
+});
+
 // Signup page with Stripe key (must come before static middleware)
 const fs = require("fs");
 app.get("/signup.html", (req, res) => {
